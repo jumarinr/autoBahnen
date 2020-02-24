@@ -1,0 +1,13 @@
+[
+    {"nombre": "EMPLEADO", "atributos": []},
+    {"nombre": "CLIENTE", "atributos": [] },
+    {"nombre": "ASESOR", "atributos": []},
+    {"nombre": "VENTA", "atributos": []},
+    {"nombre": "DETALLE", "atributos": []},
+    {"nombre": "VEHICULO", "atributos": []},
+    {"nombre": "SEDE", "atributos": []},
+    {"nombre": "MARCAPROVEEDORA", "atributos": []},
+    {"nombre": "SUMINISTRO", "atributos": []},
+    {"nombre": "NEGOCIACION", "atributos": []}
+    
+]
