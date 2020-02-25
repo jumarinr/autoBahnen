@@ -4,6 +4,6 @@ Para poder iniciar la DB se debe tener instalado previamente mysql. Se debe inic
 2. Activar corta fuegos, en linux se puede usar el comando sudo ufw enable
 3. activar mysql desde el cortafuegos, en linux se puede usar el comando sudo ufw allow mysql
 4. Si se esta en linux, se debe correr el comando sudo /usr/bin/mysql -u root -p
-5. Crear la database "prueba"
+5. Crear la database "autoBahnen"
 6. Permitir el uso de conexiones externas a través del comando ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1007223499';
 7. codificar y sacar 5. 
