@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import Links from '/imports/api/links';
-import onStartApp from '../imports/api/onStartApp';
-
+import onStartApp from '../startup/onStartApp';
+import '../imports/api/index';
 
 Meteor.startup(() => {
   onStartApp();
