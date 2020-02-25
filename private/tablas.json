@@ -1,13 +1,298 @@
 [
-    {"nombre": "EMPLEADO", "atributos": []},
-    {"nombre": "CLIENTE", "atributos": [] },
-    {"nombre": "ASESOR", "atributos": []},
-    {"nombre": "VENTA", "atributos": []},
-    {"nombre": "DETALLE", "atributos": []},
-    {"nombre": "VEHICULO", "atributos": []},
-    {"nombre": "SEDE", "atributos": []},
-    {"nombre": "MARCAPROVEEDORA", "atributos": []},
-    {"nombre": "SUMINISTRO", "atributos": []},
-    {"nombre": "NEGOCIACION", "atributos": []}
-    
+    {
+        "nombre": "EMPLEADO", 
+        "atributos": [
+            {
+                "nombre": "cedula",
+                "cp": true,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "nombre_completo",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "telefono",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+
+            {
+                "nombre": "salario_base",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "direccion",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": false
+
+            }
+        ]},
+    {
+        "nombre": "CLIENTE", 
+        "atributos": 
+        [
+            {
+                "nombre": "cedula",
+                "cp": true,
+                "tipo": "integer",
+                "obligatorio": true
+            },
+            {
+                "nombre": "nombre_completo",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+            },
+            {
+                "nombre": "telefono",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "dirección_residencia",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": false
+
+            },
+            {
+                "nombre": "email",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": false
+
+            }
+
+        ] 
+    },
+    {
+        "nombre": "ASESOR", 
+        "atributos": [
+            {
+                "nombre": "comision",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre" : "empleadoCedula",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "EMPLEADO",
+                "referenceAtribbute": "cedula"
+            }
+        ]
+    },
+    {
+        "nombre": "VENTA", 
+        "atributos": [
+            {
+                "nombre": "codigo",
+                "cp": true,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "fecha",
+                "cp": false,
+                "tipo": "datetime",
+                "obligatorio": true
+
+            }
+            
+        ]
+    },
+    {
+        "nombre": "DETALLE", 
+        "atributos": [
+            {
+                "nombre": "cantidad",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "valor_total",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            }
+        ]
+    },
+    {
+        "nombre": "VEHICULO", 
+        "atributos": [
+            {
+                "nombre": "codigo",
+                "cp": true,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "modelo",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "año",
+                "cp": false,
+                "tipo": "datetime",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "capacidad",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "precio",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "garantia",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            }
+        ]
+    },
+    {
+        "nombre": "SEDE", 
+        "atributos": [
+            {
+                "nombre": "codigo",
+                "cp": true,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "nombre",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "direccion",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "municipio",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "telefono",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "email",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": false
+
+            }
+        ]
+    },
+    {
+        "nombre": "MARCAPROVEEDORA", 
+        "atributos": [
+            {
+                "nombre": "rut",
+                "cp": true,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "nombre",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "telefono",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+            },
+            {
+                "nombre": "email",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            }
+        ]
+    },
+    {
+        "nombre": "SUMINISTRO", 
+        "atributos": [
+            {
+                "nombre": "modelo",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "cantidad",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            }
+        ]
+    },
+    {
+        "nombre": "NEGOCIACION", 
+        "atributos": [
+            {
+                "nombre": "cotizacion",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            }
+        ]
+    }
 ]
