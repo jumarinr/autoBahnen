@@ -1,20 +1,18 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
+
 
 export default class PaginaPrincipal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cedula: ''};
+            cedula: '',
+            verEmpleados: false};
       };
     componentDidMount(){
-        Meteor.call('readEmpleados', {textoPrueba: 'Texto de prueba'}, (err, result)=>{
-            if(err){
-                console.log(err)
-            }else{
-                console.log(result)
-            }
-        } )
+
     }
     inputField(event){
       this.setState({ cedula: event.target.value })
@@ -37,6 +35,11 @@ export default class PaginaPrincipal extends React.Component {
               disabled={!this.state.cedula}
               onClick={()=>this.busqueda()}
               >Buscar</button>
+               <Link href="/ver_empleados" >
+               <Button   color="primary">
+                Ver empleados
+              </Button>
+              </Link>
       </div>
 
     );
