@@ -19,7 +19,7 @@
             {
                 "nombre": "telefono",
                 "cp": false,
-                "tipo": "integer",
+                "tipo": "bigInteger",
                 "obligatorio": true
 
             },
@@ -58,7 +58,7 @@
             {
                 "nombre": "telefono",
                 "cp": false,
-                "tipo": "integer",
+                "tipo": "bigInteger",
                 "obligatorio": true
 
             },
@@ -80,106 +80,32 @@
         ] 
     },
     {
-        "nombre": "ASESOR", 
+        "nombre": "MARCAPROVEEDORA", 
         "atributos": [
             {
-                "nombre": "comision",
-                "cp": false,
-                "tipo": "string",
-                "obligatorio": true
-
-            },
-            {
-                "nombre" : "empleadoCedula",
-                "cp": false,
-                "cf": true,
-                "tipo": "integer",
-                "referenciaTable": "EMPLEADO",
-                "referenceAtribbute": "cedula"
-            }
-        ]
-    },
-    {
-        "nombre": "VENTA", 
-        "atributos": [
-            {
-                "nombre": "codigo",
+                "nombre": "rut",
                 "cp": true,
                 "tipo": "integer",
                 "obligatorio": true
 
             },
             {
-                "nombre": "fecha",
-                "cp": false,
-                "tipo": "datetime",
-                "obligatorio": true
-
-            }
-            
-        ]
-    },
-    {
-        "nombre": "DETALLE", 
-        "atributos": [
-            {
-                "nombre": "cantidad",
-                "cp": false,
-                "tipo": "integer",
-                "obligatorio": true
-
-            },
-            {
-                "nombre": "valor_total",
-                "cp": false,
-                "tipo": "integer",
-                "obligatorio": true
-
-            }
-        ]
-    },
-    {
-        "nombre": "VEHICULO", 
-        "atributos": [
-            {
-                "nombre": "codigo",
-                "cp": true,
-                "tipo": "string",
-                "obligatorio": true
-
-            },
-            {
-                "nombre": "modelo",
+                "nombre": "nombre",
                 "cp": false,
                 "tipo": "string",
                 "obligatorio": true
 
             },
             {
-                "nombre": "año",
-                "cp": false,
-                "tipo": "datetime",
-                "obligatorio": true
-
-            },
-            {
-                "nombre": "capacidad",
+                "nombre": "telefono",
                 "cp": false,
                 "tipo": "integer",
                 "obligatorio": true
-
             },
             {
-                "nombre": "precio",
+                "nombre": "email",
                 "cp": false,
-                "tipo": "integer",
-                "obligatorio": true
-
-            },
-            {
-                "nombre": "garantia",
-                "cp": false,
-                "tipo": "integer",
+                "tipo": "string",
                 "obligatorio": true
 
             }
@@ -233,35 +159,59 @@
         ]
     },
     {
-        "nombre": "MARCAPROVEEDORA", 
+        "nombre": "ASESOR", 
         "atributos": [
             {
-                "nombre": "rut",
+                "nombre": "comision",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre" : "empleadoCedula",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "EMPLEADO",
+                "referenceAtribbute": "cedula"
+            }
+        ]
+    },
+    {
+        "nombre": "VENTA", 
+        "atributos": [
+            {
+                "nombre": "codigo",
                 "cp": true,
                 "tipo": "integer",
                 "obligatorio": true
 
             },
             {
-                "nombre": "nombre",
+                "nombre": "fecha",
                 "cp": false,
-                "tipo": "string",
+                "tipo": "datetime",
                 "obligatorio": true
 
             },
             {
-                "nombre": "telefono",
+                "nombre" : "empleadoCedula",
                 "cp": false,
+                "cf": true,
                 "tipo": "integer",
-                "obligatorio": true
+                "referenciaTable": "EMPLEADO",
+                "referenceAtribbute": "cedula"
             },
             {
-                "nombre": "email",
+                "nombre" : "clienteCedula",
                 "cp": false,
-                "tipo": "string",
-                "obligatorio": true
-
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "CLIENTE",
+                "referenceAtribbute": "cedula"
             }
+            
         ]
     },
     {
@@ -280,6 +230,113 @@
                 "tipo": "integer",
                 "obligatorio": true
 
+            },
+            {
+                "nombre" : "sedeCodigo",
+                "cp": false,
+                "cf": true,
+                "tipo": "string",
+                "referenciaTable": "SEDE",
+                "referenceAtribbute": "codigo"
+            },
+            {
+                "nombre" : "marcaProveedoraRut",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "MARCAPROVEEDORA",
+                "referenceAtribbute": "rut"
+            }
+        ]
+    },
+    {
+        "nombre": "VEHICULO", 
+        "atributos": [
+            {
+                "nombre": "codigo",
+                "cp": true,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "modelo",
+                "cp": false,
+                "tipo": "string",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "año",
+                "cp": false,
+                "tipo": "datetime",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "capacidad",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "precio",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "garantia",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre" : "codigoSede",
+                "cp": false,
+                "cf": true,
+                "tipo": "string",
+                "referenciaTable": "SEDE",
+                "referenceAtribbute": "codigo"
+            }
+            
+        ]
+    },
+    {
+        "nombre": "DETALLE", 
+        "atributos": [
+            {
+                "nombre": "cantidad",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre": "valor_total",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": true
+
+            },
+            {
+                "nombre" : "ventaCodigo",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "VENTA",
+                "referenceAtribbute": "codigo"
+            },
+            {
+                "nombre" : "vehiculoCodigo",
+                "cp": false,
+                "cf": true,
+                "tipo": "string",
+                "referenciaTable": "VEHICULO",
+                "referenceAtribbute": "codigo"
             }
         ]
     },
@@ -292,6 +349,22 @@
                 "tipo": "integer",
                 "obligatorio": true
 
+            },
+            {
+                "nombre" : "marcaProveedoraRut",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "MARCAPROVEEDORA",
+                "referenceAtribbute": "rut"
+            },
+            {
+                "nombre" : "empleadoCedula",
+                "cp": false,
+                "cf": true,
+                "tipo": "integer",
+                "referenciaTable": "EMPLEADO",
+                "referenceAtribbute": "cedula"
             }
         ]
     }

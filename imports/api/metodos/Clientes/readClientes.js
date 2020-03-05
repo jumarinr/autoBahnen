@@ -2,15 +2,15 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import dataBaseConnection from '../../../../startup/dataBaseConnection';
 import {Meteor} from 'meteor/meteor'
 
-export const readEmpleados = new ValidatedMethod({
-  name: 'readEmpleados',
+export const readClientes = new ValidatedMethod({
+  name: 'readClientes',
   validate:  () => {},
   run() {
-       /* SELECT * FROM EMPLEADO; 
-        retorna todos los elementos de la tabla EMPLEADO
+       /* SELECT * FROM CLIENTE; 
+        retorna todos los elementos de la tabla CLIENTE
        */
        const elementosEncontrados = Promise.await(
-        dataBaseConnection.select().from('EMPLEADO').then(
+        dataBaseConnection.select().from('CLIENTE').then(
             (respuesta)=>{
             const respuestaParseada= JSON.parse(JSON.stringify(respuesta));
             return respuestaParseada

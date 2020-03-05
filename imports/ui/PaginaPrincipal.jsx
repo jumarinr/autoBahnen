@@ -40,6 +40,11 @@ export default class PaginaPrincipal extends React.Component {
                 Ver empleados
               </Button>
               </Link>
+              <Link href="/ver_clientes" >
+               <Button   color="primary">
+                Ver Clientes
+              </Button>
+              </Link>
       </div>
 
     );
