@@ -86,18 +86,8 @@ export default class AgregarCliente extends React.Component {
     return (
       <div>
         <Header props={'agregarCliente'} />
-    <Link href="/" >
-               <Button style={{color: '#335182'}}>
-                Ir a inicio
-              </Button>
-              </Link>
-              <Link href="/ver_clientes" >
-               <Button style={{color: '#335182'}}>
-                ver clientes
-              </Button>
-              </Link>
         
-
+        <hr/>
           <Grid container>
               <Grid item xs={6}>
               <Card variant="outlined">

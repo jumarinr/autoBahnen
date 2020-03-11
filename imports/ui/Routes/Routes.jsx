@@ -7,6 +7,8 @@ import TablaClientes from '../Clientes/TablaClientes';
 import { render } from 'react-dom';
 import { Switch } from 'react-router'
 import { BrowserRouter, Route } from 'react-router-dom'
+import RegistrarVenta from '../Ventas/RegistrarVenta';
+import VerVentas from '../Ventas/VerVentas';
 
 Meteor.startup(() => {
     render(
@@ -17,6 +19,8 @@ Meteor.startup(() => {
         <Route path="/agregar_empleado" component={AgregarEmpleado}/>
         <Route path='/agregar_cliente' component={AgregarCliente}/>
         <Route path='/ver_clientes' component={TablaClientes}/>
+        <Route path='/registrar_venta' component={RegistrarVenta}/>
+        <Route path='/ver_ventas' component={VerVentas}/>
     </Switch>
     </BrowserRouter>, 
     document.getElementById('react-target'));

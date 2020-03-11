@@ -11,10 +11,16 @@ export const createEmpleados = new ValidatedMethod({
         nombre_completo: { type: String},
         telefono: { type: Number },
         salario_base: {type: Number},
-        direccion: {type: String, optional: true }
+        direccion: {type: String, optional: true },
+        isAsesor: {type: Boolean },
+        comision: {type: Number, optional: true}
 
     }).validator(),
   run({ ...data }) {
+
+    if(data.isAsesor && !data.comision){
+      throw new Meteor.Error('Debe seleccionar una comisión')
+    }
     /*
       SELECT * WHERE cedula: ${data.cedula} FROM EMPLEADO; 
     */

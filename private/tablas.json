@@ -37,7 +37,22 @@
                 "tipo": "string",
                 "obligatorio": false
 
-            }
+            },
+            {
+                "nombre": "isAsesor",
+                "cp": false,
+                "tipo": "tinyint",
+                "obligatorio": true
+
+            }, 
+            {
+                "nombre": "comision",
+                "cp": false,
+                "tipo": "integer",
+                "obligatorio": false
+
+            }           
+
         ]},
     {
         "nombre": "CLIENTE", 

@@ -59,16 +59,6 @@ export default class TablaClientes extends React.Component {
       <div>
         <Header props={'TablaClientes'}/>
            
-    <Link href="/" >
-               <Button  style={{color: '#335182'}}>
-                Ir a inicio
-              </Button>
-              </Link>
-              <Link href="/agregar_cliente" >
-               <Button style={{color: '#335182'}}>
-                Agregar cliente
-              </Button>
-              </Link>
               <hr/>
    
       <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
