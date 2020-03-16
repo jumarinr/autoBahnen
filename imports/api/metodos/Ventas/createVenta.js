@@ -16,7 +16,7 @@ export const createVenta = new ValidatedMethod({
   run({ ...data }) {
 
     /*
-      SELECT * WHERE cedula: ${data.cedula} FROM EMPLEADO; 
+      SELECT  * WHERE cedula: ${data.cedula} FROM EMPLEADO; 
     */
     const ventaRepetida = Promise.await(
       dataBaseConnection.select().where('codigo', data.codigo).from('VENTA').then(
@@ -46,7 +46,6 @@ export const createVenta = new ValidatedMethod({
 if(!cedulaVendedor || cedulaVendedor.length === 0 ){
   throw new Meteor.Error('No se encontró la cedula del vendedor')
 }
-console.log(data.clienteCedula)
 const cedulaCliente = Promise.await(
     dataBaseConnection.select().where('cedula', data.clienteCedula).from('CLIENTE').then(
         (respuesta)=>{
@@ -58,7 +57,6 @@ const cedulaCliente = Promise.await(
         console.log(error)
     }
 ));
-console.log(data.clienteCedula)
 if(!cedulaCliente || cedulaCliente.length === 0 ){
   throw new Meteor.Error('No se encontró la cedula del cliente')
 }
@@ -73,7 +71,7 @@ if(!cedulaCliente || cedulaCliente.length === 0 ){
       catch(
         error=>{
           console.log(error)
-          throw new Meteor.Error(`Error al crear el empleado, ${error.sqlMessage}`)
+          throw new Meteor.Error(`Error al crear la venta, ${error.sqlMessage}`)
         }));
 
     return resultado;

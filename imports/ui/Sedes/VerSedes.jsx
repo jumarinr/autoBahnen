@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Header from '../Header/Header'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import 'moment/locale/es' 
 
 const useStyles = makeStyles({
   table: {
@@ -27,11 +28,11 @@ const useStyles = makeStyles({
 });
 
 
-export default class TablaClientes extends React.Component {
+export default class VerSedes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            clientes: [],
+            sedes: [],
             loading: true,
             openError: false,
             msgError: '',
@@ -40,13 +41,13 @@ export default class TablaClientes extends React.Component {
           };
       };
     componentDidMount(){
-        Meteor.call('readClientes', (err, result)=>{
+        Meteor.call('ReadSedes', (err, result)=>{
             if(err){
                 console.log(err),
                 this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
             }else{
                 console.log(result)
-                this.setState({clientes: result, 
+                this.setState({sedes: result, 
                  loading: false,
                  errorF: !! (result.length === 0),
                  noData: !! (result.length === 0),
@@ -57,7 +58,7 @@ export default class TablaClientes extends React.Component {
   render() {
     return (
       <div>
-        <Header props={'TablaClientes'}/>
+        <Header props={'verSedes'}/>
            
               <hr/>
    
@@ -68,7 +69,7 @@ export default class TablaClientes extends React.Component {
            <Card variant="outlined">
              <CardContent>
                <div style={{color: '#335182', textAlign: 'center'}}>
-            Cargando la información de los clientes...
+            Cargando la información de las sedes...
           <br/>
           <br/>
         <LinearProgress />
@@ -83,7 +84,7 @@ export default class TablaClientes extends React.Component {
            <Card variant="outlined">
              <CardContent>
              {this.state.noData ?
-             (<h4 style={{textAlign : 'center'}}>No hay elementos guardados en la tabla clientes.</h4>)
+             (<h4 style={{textAlign : 'center'}}>No hay elementos guardados en la tabla sedes.</h4>)
              :
                <h4 style={{color: 'red', textAlign: 'center'}}>
                <IconButton aria-label="problem">
@@ -99,25 +100,30 @@ export default class TablaClientes extends React.Component {
       <Table  size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Cédula</TableCell>
-            <TableCell align="center">Nombre Completo</TableCell>
-            <TableCell align="center">Teléfono</TableCell>
-            <TableCell align="center">Dirección</TableCell>
+            <TableCell align="center">Codigo</TableCell>
+            <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Direccion</TableCell>
+            <TableCell align="center">Municipio</TableCell>
+            <TableCell align="center">Telefono</TableCell>
             <TableCell align="center">Email</TableCell>
+            <TableCell align="center">Gerente</TableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.state.clientes.map(row => (
-            <TableRow key={row.cedula}>
+          {this.state.sedes.map(row =>{ 
+              return (
+            <TableRow key={row.codigo}>
               <TableCell align="center" component="th" scope="row">
-                {row.cedula}
+                {row.codigo}
               </TableCell>
-              <TableCell align="center">{row.nombre_completo}</TableCell>
-              <TableCell align="center">{row.telefono}</TableCell>
-              <TableCell align="center">{row.dirección_residencia || '--'}</TableCell>
+              <TableCell style={{textTransform: 'capitalize'}} align="center">{row.nombre}</TableCell>
+              <TableCell align="center">{row.direccion || '--'}</TableCell>
+              <TableCell align="center">{row.municipio || '--'}</TableCell>
+              <TableCell align="center">{row.telefono || '--'}</TableCell>
               <TableCell align="center">{row.email || '--'}</TableCell>
+              <TableCell align="center">{row.gerente || '--'}</TableCell>
             </TableRow>
-          ))}
+          )})}
         </TableBody>
       </Table>)}
           </TableContainer> 

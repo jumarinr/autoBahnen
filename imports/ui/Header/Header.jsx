@@ -12,6 +12,8 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import StoreIcon from '@material-ui/icons/Store';
+import AddToQueueIcon from '@material-ui/icons/AddToQueue'
 
 import WorkIcon from '@material-ui/icons/Work';
 import { makeStyles } from '@material-ui/core/styles';
@@ -93,6 +95,30 @@ const useStyles = makeStyles(theme => ({
                    <IconButton>   <AddShoppingCartIcon style={{color: 'white'}}/> </IconButton>
                    <br/>
                  Agregar Ventas
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+                        { props.props != 'verSedes' ? 
+            <Link href="/ver_sedes" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <StoreIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Ver sedes
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+                       { props.props === 'verSedes' ? 
+            <Link href="/agregar_sede" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <AddToQueueIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Agregar sede
                  </span>    
               </Button>
               </Link>

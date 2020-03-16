@@ -2,20 +2,20 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import dataBaseConnection from '../../../../startup/dataBaseConnection';
 import {Meteor} from 'meteor/meteor'
 
-export const readVentas = new ValidatedMethod({
-  name: 'readVentas',
+export const ReadSedes = new ValidatedMethod({
+  name: 'ReadSedes',
   validate:  () => {},
   run() {
-       /* SELECT codigo, fecha, EMPLEADO.nombre_completo as empleado, CLIENTE.nombre_completo as cliente 
-       * FROM VENTA, CLIENTE, EMPLEADO
-       WHERE EMPLEADO.cedula = VENTA.empleadoCedula and CLIENTE.cedula =Venta.clienteCedula;
+       /* SELECT codigo, nombre, direccion, municipio, telefono, email , EMPLEADO.nombre_completo as gerente
+       * FROM SEDE, CLIENTE
+       WHERE EMPLEADO.cedula = SEDE.empleadoCedula;
 
         retorna todos los elementos de la tabla VENTA
        */
        const elementosEncontrados = Promise.await(
-        dataBaseConnection.select(dataBaseConnection.raw('codigo, fecha, EMPLEADO.nombre_completo as empleado, CLIENTE.nombre_completo as cliente'))
-        .from(dataBaseConnection.raw('VENTA, CLIENTE, EMPLEADO'))
-        .whereRaw('EMPLEADO.cedula = VENTA.empleadoCedula and CLIENTE.cedula = VENTA.clienteCedula')
+        dataBaseConnection.select(dataBaseConnection.raw('codigo, nombre, SEDE.direccion as direccion, municipio, SEDE.telefono as telefono, SEDE.email as email, EMPLEADO.nombre_completo as gerente'))
+        .from(dataBaseConnection.raw('SEDE, EMPLEADO'))
+        .whereRaw('EMPLEADO.cedula = SEDE.gerenteCedula')
         .then(
             (respuesta)=>{
                 console.log(respuesta)

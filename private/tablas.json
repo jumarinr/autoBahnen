@@ -170,21 +170,9 @@
                 "tipo": "string",
                 "obligatorio": false
 
-            }
-        ]
-    },
-    {
-        "nombre": "ASESOR", 
-        "atributos": [
-            {
-                "nombre": "comision",
-                "cp": false,
-                "tipo": "string",
-                "obligatorio": true
-
             },
             {
-                "nombre" : "empleadoCedula",
+                "nombre" : "gerenteCedula",
                 "cp": false,
                 "cf": true,
                 "tipo": "integer",

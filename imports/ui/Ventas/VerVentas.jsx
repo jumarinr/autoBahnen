@@ -111,7 +111,7 @@ export default class VerVentas extends React.Component {
           {this.state.clientes.map(row =>{ 
               let fecha = moment(row.fecha);
               fecha = fecha.locale('es')
-              fecha = fecha.format('dddd, MMMM Do YYYY')
+              fecha = fecha.format('dddd, MMMM Do YYYY hh:mm:ss')
               return (
             <TableRow key={row.codigo}>
               <TableCell align="center" component="th" scope="row">
