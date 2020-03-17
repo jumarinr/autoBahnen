@@ -10,16 +10,20 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Snackbar from '@material-ui/core/Snackbar';
+import Grid from '@material-ui/core/Grid';
 import SnackbarContent from  '@material-ui/core/SnackbarContent';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Header from '../Header/Header'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import moment from 'moment';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import 'moment/locale/es' 
 
 const useStyles = makeStyles({
@@ -42,19 +46,54 @@ export default class VerVentas extends React.Component {
           };
       };
     componentDidMount(){
+      this.actualizarVenta();
+    }
+    actualizarVenta(){
+      this.setState({ loading: true,
+        openError: false});
         Meteor.call('readVentas', (err, result)=>{
+          if(err){
+              console.log(err),
+              this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
+          }else{
+              console.log(result);
+              this.setState({clientes: result, 
+               loading: false,
+               errorF: !! (result.length === 0),
+               noData: !! (result.length === 0),
+              })
+          }
+      } )
+    }
+    borrar(codigo){
+      swal({
+        title: "¿Esta seguro que desea borrar la venta?",
+        text: "Si la borras no podras recuperarla.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          Meteor.call('deleteVenta', {codigo}, (err)=>{
             if(err){
-                console.log(err),
-                this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
+              console.log(err)
+              swal("Error borrando la venta", {
+                icon: "warning",
+              });
             }else{
-                console.log(result)
-                this.setState({clientes: result, 
-                 loading: false,
-                 errorF: !! (result.length === 0),
-                 noData: !! (result.length === 0),
-                })
+              swal({
+                title: "Venta borrada",
+                icon: "success",
+              });
+              this.actualizarVenta();
             }
-        } )
+          })
+          
+        } else {
+          swal({title : "Borrado de venta cancelada.", icon: "warning"});
+        }
+      });
     }
   render() {
     return (
@@ -62,8 +101,12 @@ export default class VerVentas extends React.Component {
         <Header props={'verVentas'}/>
            
               <hr/>
-   
-      <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
+              
+              <Grid container justify="center" direction="row"
+  justify="center"
+  alignItems="center">
+    <Grid item xs={12} md={10}>
+      <TableContainer style={{height : '100%', width: '100%'}} component={Paper}>
       {this.state.loading ? 
       (
         <React.Fragment>
@@ -105,6 +148,8 @@ export default class VerVentas extends React.Component {
             <TableCell align="center">Fecha</TableCell>
             <TableCell align="center">Empleado</TableCell>
             <TableCell align="center">Cliente</TableCell>
+            <TableCell align="center">Editar</TableCell>
+            <TableCell align="center">Borrar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -120,11 +165,15 @@ export default class VerVentas extends React.Component {
               <TableCell style={{textTransform: 'capitalize'}} align="center">{fecha}</TableCell>
               <TableCell align="center">{row.empleado || '--'}</TableCell>
               <TableCell align="center">{row.cliente || '--'}</TableCell>
+              <TableCell align="center"> <IconButton>   <EditOutlinedIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
+              <TableCell align="center"> <IconButton onClick={()=>this.borrar(row.codigo)}>   <DeleteOutlineIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
             </TableRow>
           )})}
         </TableBody>
       </Table>)}
           </TableContainer> 
+          </Grid>
+          </Grid>
           <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
