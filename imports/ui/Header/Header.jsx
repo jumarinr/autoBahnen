@@ -10,6 +10,10 @@ import ContactsIcon from '@material-ui/icons/Contacts';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import StoreIcon from '@material-ui/icons/Store';
+import AddToQueueIcon from '@material-ui/icons/AddToQueue'
 
 import WorkIcon from '@material-ui/icons/Work';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,10 +38,12 @@ const useStyles = makeStyles(theme => ({
             <Typography variant="h6" className={classes.title}>
             AutoBahnen S.A.
             </Typography>
+            { props.props != 'inicio' ? 
             <Link href="/" >
             <Button ><span style={{color: 'white', fontSize: '50%'}}><IconButton><HomeIcon style={{color: 'white'}}/></IconButton>
             <br/>Inicio</span></Button>
             </Link>
+            :null}
             { props.props != 'TablaEmpleados' ? 
             <Link href="/ver_empleados" >
             <Button ><span style={{color: 'white', fontSize: '50%'}}><IconButton><WorkIcon style={{color: 'white'}}/></IconButton>
@@ -70,6 +76,55 @@ const useStyles = makeStyles(theme => ({
             </Link>
             : null 
             }
+             { props.props !== 'verVentas' ? 
+            <Link href="/ver_ventas" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <ShoppingCartIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Ver Ventas
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+            { props.props === 'verVentas' ? 
+            <Link href="/registrar_venta" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <AddShoppingCartIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Agregar Ventas
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+                        { props.props != 'verSedes' ? 
+            <Link href="/ver_sedes" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <StoreIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Ver sedes
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+                       { props.props === 'verSedes' ? 
+            <Link href="/agregar_sede" >
+               <Button style={{color: 'white'}}>
+               <span style={{color: 'white', fontSize: '50%'}}>
+                   <IconButton>   <AddToQueueIcon style={{color: 'white'}}/> </IconButton>
+                   <br/>
+                 Agregar sede
+                 </span>    
+              </Button>
+              </Link>
+              : null
+            }
+            
           </Toolbar>
         </AppBar>
       </div>

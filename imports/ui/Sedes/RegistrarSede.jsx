@@ -12,6 +12,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Header from '../Header/Header'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 
 // import CloseIcon from '@material-ui/icons/Close';
 
@@ -22,32 +26,46 @@ const useStyles = makeStyles({
 });
 
 
-export default class AgregarCliente extends React.Component {
+export default class RegistrarSede extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cedula: '',
-            nombre_completo: '',
+            codigo: '',
+            nombre: '',
             telefono: '',
-            dirección_residencia: '',
+            direccion: '',
             email: '',
             openError: false,
             msgError: '',
             openSuccess: false,
             msgSuccess: '',
+            gerentes: [],
         };
       };
     componentDidMount(){
+        Meteor.call('readGerentes', (err, result)=>{
+            if(err){
+                console.log(err),
+                this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
+            }else{
+                console.log(result)
+                this.setState({gerentes: result, 
+                 loading: false,
+                 errorF:!! (result.length === 0),
+                 msgError: result.length === 0 ? 'No hay registros de empleados en la base de datos' : null,
+                })
+            }
+        } )
     }
     changeValue(event, name){
         this.setState({[`${name}`]: event.target.value});
     }
     llenarDatos(event){
-      if(!this.state.cedula){
+      if(!this.state.codigo){
         this.setState({openError: true, msgError: "Debe ingresar una cédula"})
         return false;
       }
-      if(!this.state.nombre_completo){
+      if(!this.state.nombre){
         this.setState({openError: true, msgError: "Debe ingresar un nombre"})
         return false;
       }
@@ -56,26 +74,29 @@ export default class AgregarCliente extends React.Component {
         return false; 
       }
       const data = {
-        cedula : Number(this.state.cedula),
-        nombre_completo: this.state.nombre_completo,
+        codigo : Number(this.state.codigo),
+        nombre: this.state.nombre,
         telefono: Number(this.state.telefono),
+        municipio: this.state.municipio,
+        gerenteCedula: this.state.gerenteCedula,
+
       }
-      if (this.state.dirección_residencia){
-        data.dirección_residencia = this.state.dirección_residencia;
+      if (this.state.direccion){
+        data.direccion = this.state.direccion;
       }
       if (this.state.email){
         data.email = this.state.email;
       }
-      Meteor.call('createCliente', data, (err, result)=>{
+      Meteor.call('createSede', data, (err, result)=>{
         if(err){
           console.log(err)
           this.setState({openError: true, msgError: err.error})
         }else{
-          this.setState({openSuccess: true, msgSuccess: "Empleado creado con exito", 
-          cedula: '',
-          nombre_completo: '',
+          this.setState({openSuccess: true, msgSuccess: "Sede creada con exito", 
+          codigo: '',
+          nombre: '',
           telefono: '',
-          dirección_residencia: '',
+          direccion: '',
           email: '',
         })
         }
@@ -93,28 +114,54 @@ export default class AgregarCliente extends React.Component {
               <Card variant="outlined">
           <CardContent>
             <Grid container>
+                <Grid item xs={12}>
+                    <h5>Complete la información de la sede</h5>
+                </Grid>
             <form onSubmit={event =>  this.llenarDatos(event) }>
                 <Grid item xs={12}>
-                <TextField id="cedula" required type="number" label="Ingrese cédula" 
-                onChange={(event=>{this.changeValue(event, 'cedula')})} value={this.state.cedula}/>
+                <TextField id="codigo" required type="number" label="Ingrese código de sede" 
+                onChange={(event=>{this.changeValue(event, 'codigo')})} value={this.state.codigo}/>
                 </Grid>
                 <Grid item xs={12}>
-                <TextField id="nombre_completo" required label="Ingrese nombre" 
-                onChange={(event=>{this.changeValue(event, 'nombre_completo')})} value={this.state.nombre_completo}/>
+                <TextField id="nombre" required label="Ingrese nombre de sede" 
+                onChange={(event=>{this.changeValue(event, 'nombre')})} value={this.state.nombre}/>
                 </Grid>
                 <Grid item xs={12}>
                 <TextField id="telefono" required label="Ingrese télefono" type="number"
                 onChange={(event=>{this.changeValue(event, 'telefono')})} value={this.state.telefono}/>
                 </Grid>
                 <Grid item xs={12}> 
-                <TextField id="dirección_residencia"  label="Ingrese dirección" 
-                onChange={(event=>{this.changeValue(event, 'dirección_residencia')})} value={this.state.dirección_residencia}/>
+                <TextField id="direccion"  label="Ingrese dirección" 
+                onChange={(event=>{this.changeValue(event, 'direccion')})} value={this.state.direccion}/>
+                </Grid>
+                <Grid item xs={12}>
+                <TextField id="municipio"  label="Ingrese municipio" 
+                onChange={(event=>{this.changeValue(event, 'municipio')})} value={this.state.municipio}/>
                 </Grid>
                 <Grid item xs={12}>
                 <TextField id="email" type="email" required label="Ingrese email" 
                 onChange={(event=>{this.changeValue(event, 'email')})} value={this.state.email}/>
                 </Grid>
                 <Grid item xs={12}> 
+                <br/>
+                <Grid item xs={12}>
+
+<InputLabel htmlFor="gerente">Gerente</InputLabel>
+<Select
+value={this.state.gerenteCedula}
+onChange={(event)=> this.setState({gerenteCedula: event.target.value})}
+inputProps={{
+name: 'Gerente',
+fullWidth: true,
+id: 'gerente',
+}}
+>
+{this.state.gerentes.map((gerente)=>
+<MenuItem value={gerente.cedula}>{gerente.nombre_completo}</MenuItem>  
+)}
+
+</Select>
+</Grid>
                 <br/>
                 <div style={{textAlign: 'right'}}>
                 <Button  style={{color: '#335182'}} onClick={()=>this.llenarDatos()}>

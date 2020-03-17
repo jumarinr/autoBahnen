@@ -25,14 +25,14 @@ const useStyles = makeStyles({
 });
 
 
-export default class AgregarEmpleado extends React.Component {
+export default class RegistrarVenta extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cedula: '',
-            nombre_completo: '',
-            telefono: '',
-            salario_base: '',
+            codigo: '',
+            fecha: '',
+            clienteCedula: '',
+            empleadoCedula: '',
             direccion: '',
             openError: false,
             msgError: '',
@@ -40,59 +40,72 @@ export default class AgregarEmpleado extends React.Component {
             msgSuccess: '',
             isAsesor: true,
             comision: '',
+            empleados: [],
+            clientes: []
         };
       };
     componentDidMount(){
+      Meteor.call('readEmpleados', (err, result)=>{
+        if(err){
+            console.log(err),
+            this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
+        }else{
+            console.log(result)
+            this.setState({empleados: result, 
+             loading: false,
+             errorF:!! (result.length === 0),
+             msgError: result.length === 0 ? 'No hay registros de empleados en la base de datos' : null,
+            })
+        }
+    } )
+
+    Meteor.call('readClientes', (err, result)=>{
+      if(err){
+          console.log(err),
+          this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
+      }else{
+          console.log(result)
+          this.setState({clientes: result, 
+           loading: false,
+           errorF: !! (result.length === 0),
+           noData: !! (result.length === 0),
+          })
+      }
+  } )
     }
     changeValue(event, name){
         this.setState({[`${name}`]: event.target.value});
     }
     llenarDatos(event){
-      if(!this.state.cedula){
-        this.setState({openError: true, msgError: "Debe ingresar una cédula"})
+      if(!this.state.codigo){
+        this.setState({openError: true, msgError: "Debe ingresar una código de venta"})
         return false;
       }
-      if(!this.state.nombre_completo){
-        this.setState({openError: true, msgError: "Debe ingresar un nombre"})
-        return false;
-      }
-      if(!this.state.telefono){
-        this.setState({openError: true, msgError: "Debe seleccionar un teléfono"})
+      if(!this.state.clienteCedula){
+        this.setState({openError: true, msgError: "Debe seleccionar la cedula del cliente"})
         return false; 
       }
-      if(!this.state.salario_base){
-        this.setState({openError: true, msgError: "Debe seleccionar un salario base"})
-        return false;
-      }
-      if(this.state.isAsesor && !this.state.comision){
-        this.setState({openError: true, msgError: "Debe seleccionar una comisión para un empleado de tipo asesor"})
+      if(!this.state.empleadoCedula){
+        this.setState({openError: true, msgError: "Debe seleccionar la cedula del vendedor"})
         return false;
       }
       const data = {
-        cedula : Number(this.state.cedula),
-        nombre_completo: this.state.nombre_completo,
-        telefono: Number(this.state.telefono),
-        salario_base: Number(this.state.salario_base),
-        isAsesor : this.state.isAsesor,
+        codigo : Number(this.state.codigo),
+        fecha: new Date(),
+        clienteCedula: Number(this.state.clienteCedula),
+        empleadoCedula: Number(this.state.empleadoCedula),
       }
-      if (this.state.direccion){
-        data.direccion = this.state.direccion;
-      }
-      if (this.state.isAsesor){
-        data.comision = Number(this.state.comision);
-      }
-      Meteor.call('createEmpleados', data, (err, result)=>{
+
+      Meteor.call('createVenta', data, (err, result)=>{
         if(err){
           console.log(err)
           this.setState({openError: true, msgError: err.error})
         }else{
-          this.setState({openSuccess: true, msgSuccess: "Empleado creado con exito", 
-          cedula: '',
-          nombre_completo: '',
-          telefono: '',
-          salario_base: '',
-          direccion: '',
-          comision: '',
+          this.setState({openSuccess: true, msgSuccess: "Venta creada con exito", 
+          codigo: '',
+          fecha: '',
+          clienteCedula: '',
+          empleadoCedula: '',
         })
         }
       })
@@ -101,7 +114,7 @@ export default class AgregarEmpleado extends React.Component {
   render() {
     return (
       <div>
-        <Header props={'agregaEmpleados'}/>
+        <Header props={'registrarVenta'}/>
         <hr/>
           <Grid container>
               <Grid item xs={6}>
@@ -110,58 +123,53 @@ export default class AgregarEmpleado extends React.Component {
             <Grid container >
               <div >
                 <Grid item xs={12}>
-                  <h6>
-                    Complete la información para registrar el empleado
-                  </h6>
+                  <h5>
+                    Complete la información para registrar la venta
+                  </h5>
                 </Grid>
             <form onSubmit={event =>  this.llenarDatos(event) }>
                 <Grid item xs={12}>
-                <TextField id="cedula" fullWidth={true} required type="number" label="Ingrese cédula" 
-                onChange={(event=>{this.changeValue(event, 'cedula')})} value={this.state.cedula}/>
-                </Grid>
-                <Grid item xs={12}>
-                <TextField id="nombre_completo" fullWidth={true} required label="Ingrese nombre" 
-                onChange={(event=>{this.changeValue(event, 'nombre_completo')})} value={this.state.nombre_completo}/>
-                </Grid>
-                <Grid item xs={12}>
-                <TextField id="telefono" fullWidth={true} required label="Ingrese télefono" type="number"
-                onChange={(event=>{this.changeValue(event, 'telefono')})} value={this.state.telefono}/>
-                </Grid>
-                <Grid item xs={12}>
-                <TextField id="salario_base" fullWidth={true} required label="Ingrese salario base" type="number"
-                onChange={(event=>{this.changeValue(event, 'salario_base')})} value={this.state.salario_base}/>
-                </Grid>
-                <Grid item xs={12}>
-                  <div  style={{textAlign : 'center'}}>
-                <TextField id="direccion" fullWidth={true} label="Ingrese dirección" 
-                onChange={(event=>{this.changeValue(event, 'direccion')})} value={this.state.direccion}/>
-                </div>
+                <TextField id="codigo" fullWidth={true} required type="number" label="Ingrese código" 
+                onChange={(event=>{this.changeValue(event, 'codigo')})} value={this.state.codigo}/>
                 </Grid>
                 <br/>
                 <Grid item xs={12}>
 
-                <InputLabel htmlFor="age-simple">Tipo de empleado</InputLabel>
+                <InputLabel htmlFor="cliente">Empleado</InputLabel>
         <Select
-          value={this.state.isAsesor}
-          onChange={(event)=> this.setState({isAsesor: event.target.value})}
+          value={this.state.empleadoCedula}
+          onChange={(event)=> this.setState({empleadoCedula: event.target.value})}
           inputProps={{
-            name: 'Tipo de empleado',
+            name: 'Cliente',
             fullWidth: true,
-            id: 'age-simple',
+            id: 'cliente',
           }}
         >
-          <MenuItem value={true}>Asesor</MenuItem>
-          <MenuItem value={false}>Gerente</MenuItem>
+          {this.state.empleados.map((empleado)=>
+            <MenuItem value={empleado.cedula}>{empleado.nombre_completo}</MenuItem>  
+          )}
+          
         </Select>
                 </Grid>
+                <br/>
+                <Grid item xs={12}>
 
-
-                {this.state.isAsesor ? (
-                <Grid item xs={12}> 
-                <TextField id="comision" type="number" fullWidth={true} label="Ingrese Comisión" 
-                onChange={(event=>{this.changeValue(event, 'comision')})} value={this.state.comision}/>
+                <InputLabel htmlFor="cliente">Cliente</InputLabel>
+        <Select
+          value={this.state.clienteCedula}
+          onChange={(event)=> this.setState({clienteCedula: event.target.value})}
+          inputProps={{
+            name: 'Cliente',
+            fullWidth: true,
+            id: 'cliente',
+          }}
+        >
+          {this.state.clientes.map((client)=>
+            <MenuItem value={client.cedula}>{client.nombre_completo}</MenuItem>  
+          )}
+          
+        </Select>
                 </Grid>
-                ): null }
                 <Grid item xs={12}> 
                 <br/>
                 <div style={{textAlign: 'right'}}>

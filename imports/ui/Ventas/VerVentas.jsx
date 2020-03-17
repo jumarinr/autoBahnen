@@ -19,6 +19,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Header from '../Header/Header'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import moment from 'moment';
+import 'moment/locale/es' 
 
 const useStyles = makeStyles({
   table: {
@@ -27,28 +29,29 @@ const useStyles = makeStyles({
 });
 
 
-export default class TablaEmpleados extends React.Component {
+export default class VerVentas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            empleados: [],
+            clientes: [],
             loading: true,
             openError: false,
             msgError: '',
-            errorF: false
+            errorF: false,
+            noData: false,
           };
       };
     componentDidMount(){
-        Meteor.call('readEmpleados', (err, result)=>{
+        Meteor.call('readVentas', (err, result)=>{
             if(err){
                 console.log(err),
                 this.setState({loading: false, openError: true, msgError: err.error, errorF: true})
             }else{
                 console.log(result)
-                this.setState({empleados: result, 
+                this.setState({clientes: result, 
                  loading: false,
-                 errorF:!! (result.length === 0),
-                 msgError: result.length === 0 ? 'No hay registros de empleados en la base de datos' : null,
+                 errorF: !! (result.length === 0),
+                 noData: !! (result.length === 0),
                 })
             }
         } )
@@ -56,8 +59,8 @@ export default class TablaEmpleados extends React.Component {
   render() {
     return (
       <div>
-        <Header props={'TablaEmpleados'}/>
-
+        <Header props={'verVentas'}/>
+           
               <hr/>
    
       <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
@@ -67,7 +70,7 @@ export default class TablaEmpleados extends React.Component {
            <Card variant="outlined">
              <CardContent>
                <div style={{color: '#335182', textAlign: 'center'}}>
-            Cargando la información de los empleados...
+            Cargando la información de las ventas...
           <br/>
           <br/>
         <LinearProgress />
@@ -81,13 +84,15 @@ export default class TablaEmpleados extends React.Component {
         <React.Fragment>
            <Card variant="outlined">
              <CardContent>
-             
+             {this.state.noData ?
+             (<h4 style={{textAlign : 'center'}}>No hay elementos guardados en la tabla clientes.</h4>)
+             :
                <h4 style={{color: 'red', textAlign: 'center'}}>
                <IconButton aria-label="problem">
                <ReportProblemIcon style={{fontSize: '50px', color: 'red'}}/>
                </IconButton>
                {this.state.msgError}
-        </h4>
+             </h4> }
                </CardContent>  
         </Card>
         </React.Fragment>
@@ -96,29 +101,27 @@ export default class TablaEmpleados extends React.Component {
       <Table  size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Cédula</TableCell>
-            <TableCell align="center">Nombre Completo</TableCell>
-            <TableCell align="center">Teléfono</TableCell>
-            <TableCell align="center">Salario base</TableCell>
-            <TableCell align="center">Dirección</TableCell>
-            <TableCell align="center">Tipo de empleado</TableCell>
-            <TableCell align="center">Comisión</TableCell>
+            <TableCell align="center">Codigo</TableCell>
+            <TableCell align="center">Fecha</TableCell>
+            <TableCell align="center">Empleado</TableCell>
+            <TableCell align="center">Cliente</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.state.empleados.map(row => (
-            <TableRow key={row.cedula}>
+          {this.state.clientes.map(row =>{ 
+              let fecha = moment(row.fecha);
+              fecha = fecha.locale('es')
+              fecha = fecha.format('dddd, MMMM Do YYYY hh:mm:ss')
+              return (
+            <TableRow key={row.codigo}>
               <TableCell align="center" component="th" scope="row">
-                {row.cedula}
+                {row.codigo}
               </TableCell>
-              <TableCell align="center">{row.nombre_completo}</TableCell>
-              <TableCell align="center">{row.telefono}</TableCell>
-              <TableCell align="center">{row.salario_base}</TableCell>
-              <TableCell align="center">{row.direccion || '--'}</TableCell>
-              <TableCell align="center">{row.isAsesor ? 'Asesor' :  'Gerente'}</TableCell>
-              <TableCell align="center">{row.comision || '--'}</TableCell>
+              <TableCell style={{textTransform: 'capitalize'}} align="center">{fecha}</TableCell>
+              <TableCell align="center">{row.empleado || '--'}</TableCell>
+              <TableCell align="center">{row.cliente || '--'}</TableCell>
             </TableRow>
-          ))}
+          )})}
         </TableBody>
       </Table>)}
           </TableContainer> 

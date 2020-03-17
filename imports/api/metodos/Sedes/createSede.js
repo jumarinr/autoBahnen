@@ -4,16 +4,16 @@ import { Promise } from 'meteor/promise';
 import {Meteor} from 'meteor/meteor'
 import dataBaseConnection from '../../../../startup/dataBaseConnection';
 
-export const createEmpleados = new ValidatedMethod({
-  name: 'createEmpleados',
+export const createSede = new ValidatedMethod({
+  name: 'createSede',
   validate:  new SimpleSchema({
-        cedula: { type: Number},
-        nombre_completo: { type: String},
+    codigo: { type: Number},
+        nombre: { type: String},
         telefono: { type: Number },
-        salario_base: {type: Number},
         direccion: {type: String, optional: true },
-        isAsesor: {type: Boolean },
-        comision: {type: Number, optional: true}
+        municipio: {type: String },
+        email: {type: String, optional: true},
+        gerenteCedula: { type: Number,}
 
     }).validator(),
   run({ ...data }) {
@@ -24,8 +24,8 @@ export const createEmpleados = new ValidatedMethod({
     /*
       SELECT * WHERE cedula: ${data.cedula} FROM EMPLEADO; 
     */
-    const cedulaRepetida = Promise.await(
-      dataBaseConnection.select().where('cedula', data.cedula).from('EMPLEADO').then(
+    const codigoRepetido = Promise.await(
+      dataBaseConnection.select().where('codigo', data.codigo).from('SEDE').then(
           (respuesta)=>{
           const respuestaParseada= JSON.parse(JSON.stringify(respuesta));
           return respuestaParseada
@@ -35,15 +35,29 @@ export const createEmpleados = new ValidatedMethod({
           console.log(error)
       }
   ));
-  if(cedulaRepetida && cedulaRepetida.length > 0 ){
+  if(codigoRepetido && codigoRepetido.length > 0 ){
     throw new Meteor.Error('La cedula ya esta registrada en base de datos')
  }
 
+ const cedulaGerente = Promise.await(
+    dataBaseConnection.select().where('cedula', data.gerenteCedula).from('EMPLEADO').then(
+        (respuesta)=>{
+        const respuestaParseada= JSON.parse(JSON.stringify(respuesta));
+        return respuestaParseada
+    }
+).catch(
+    (error)=>{
+        console.log(error)
+    }
+));
+if(!cedulaGerente || cedulaGerente.length === 0 ){
+  throw new Meteor.Error('No se encontró la cedula del vendedor')
+}
     /* 
        'insert into `EMPLEADO` (`cedula`, `nombre_completo`, `salario_base`, `telefono`) values (cedula, \'nombre\', telefono, salario)' 
     */
     const resultado = Promise.await(
-      dataBaseConnection('EMPLEADO').
+      dataBaseConnection('SEDE').
       insert(data).
       then(resultado=>{return resultado}).
       catch(

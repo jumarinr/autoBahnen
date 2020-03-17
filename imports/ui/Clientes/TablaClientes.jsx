@@ -59,16 +59,6 @@ export default class TablaClientes extends React.Component {
       <div>
         <Header props={'TablaClientes'}/>
            
-    <Link href="/" >
-               <Button  style={{color: '#335182'}}>
-                Ir a inicio
-              </Button>
-              </Link>
-              <Link href="/agregar_cliente" >
-               <Button style={{color: '#335182'}}>
-                Agregar cliente
-              </Button>
-              </Link>
               <hr/>
    
       <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
@@ -124,7 +114,7 @@ export default class TablaClientes extends React.Component {
               </TableCell>
               <TableCell align="center">{row.nombre_completo}</TableCell>
               <TableCell align="center">{row.telefono}</TableCell>
-              <TableCell align="center">{row.direccion || '--'}</TableCell>
+              <TableCell align="center">{row.dirección_residencia || '--'}</TableCell>
               <TableCell align="center">{row.email || '--'}</TableCell>
             </TableRow>
           ))}
