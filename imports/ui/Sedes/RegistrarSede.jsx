@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Header from '../Header/Header'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -109,11 +110,18 @@ export default class RegistrarSede extends React.Component {
         <Header props={'agregarCliente'} />
         
         <hr/>
-          <Grid container>
-              <Grid item xs={6}>
+          <Grid container
+  direction="row"
+  justify="center"
+  alignItems="center">
+              <Grid item xs={12} md={4}>
               <Card variant="outlined">
+              
           <CardContent>
-            <Grid container>
+            <Grid container 
+  direction="row"
+  justify="center"
+  alignItems="center">
                 <Grid item xs={12}>
                     <h5>Complete la información de la sede</h5>
                 </Grid>
@@ -162,17 +170,25 @@ id: 'gerente',
 
 </Select>
 </Grid>
-                <br/>
-                <div style={{textAlign: 'right'}}>
-                <Button  style={{color: '#335182'}} onClick={()=>this.llenarDatos()}>
-                Registrar
-              </Button>
-                </div>
                 
               </Grid> 
                 </form>
               </Grid> 
               </CardContent>
+              <CardActions>
+                <Grid
+  container
+  direction="row"
+  justify="flex-end"
+  alignItems="center"
+>
+              <Grid>
+                <Button  style={{color: '#335182'}} onClick={()=>this.llenarDatos()}>
+                Registrar
+              </Button>
+                </Grid>
+                </Grid>
+              </CardActions>
               </Card>
               </Grid>
               </Grid>

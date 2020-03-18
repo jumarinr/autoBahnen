@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -60,8 +61,12 @@ export default class TablaClientes extends React.Component {
         <Header props={'TablaClientes'}/>
            
               <hr/>
-   
-      <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
+        <Grid container justify="center" direction="row"
+  justify="center"
+  alignItems="center">
+         {/*  <Grid item xs={2}/> */}
+          <Grid item xs={8}>
+      <TableContainer style={{height : '100%', width: '100%'}} component={Paper}>
       {this.state.loading ? 
       (
         <React.Fragment>
@@ -121,6 +126,10 @@ export default class TablaClientes extends React.Component {
         </TableBody>
       </Table>)}
           </TableContainer> 
+          
+          </Grid>
+         {/* <Grid item xs={2}/> */}
+          </Grid>
           <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -141,6 +150,7 @@ export default class TablaClientes extends React.Component {
     </IconButton>]}
       />
         </Snackbar>
+        
       </div>
 
     );

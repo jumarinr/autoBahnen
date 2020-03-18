@@ -10,6 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
+import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,6 +21,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Header from '../Header/Header'
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import 'moment/locale/es' 
 
 const useStyles = makeStyles({
@@ -61,8 +65,12 @@ export default class VerSedes extends React.Component {
         <Header props={'verSedes'}/>
            
               <hr/>
+              <Grid container justify="center" direction="row"
+  justify="center"
+  alignItems="center">
+    <Grid item xs={12} md={10}>
    
-      <TableContainer style={{height : '70%', width: '60%'}} component={Paper}>
+      <TableContainer style={{height : '100%', width: '100%'}} component={Paper}>
       {this.state.loading ? 
       (
         <React.Fragment>
@@ -107,6 +115,8 @@ export default class VerSedes extends React.Component {
             <TableCell align="center">Telefono</TableCell>
             <TableCell align="center">Email</TableCell>
             <TableCell align="center">Gerente</TableCell> 
+            <TableCell align="center">Editar</TableCell>
+            <TableCell align="center">Borrar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -122,11 +132,16 @@ export default class VerSedes extends React.Component {
               <TableCell align="center">{row.telefono || '--'}</TableCell>
               <TableCell align="center">{row.email || '--'}</TableCell>
               <TableCell align="center">{row.gerente || '--'}</TableCell>
+              <TableCell align="center"> <IconButton>   <EditOutlinedIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
+              <TableCell align="center"> <IconButton onClick={()=>this.borrar(row.codigo)}>   <DeleteOutlineIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
             </TableRow>
           )})}
         </TableBody>
       </Table>)}
           </TableContainer> 
+          
+          </Grid>
+          </Grid>
           <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

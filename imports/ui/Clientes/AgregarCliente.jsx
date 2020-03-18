@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Header from '../Header/Header'
 
 // import CloseIcon from '@material-ui/icons/Close';
@@ -88,12 +89,23 @@ export default class AgregarCliente extends React.Component {
         <Header props={'agregarCliente'} />
         
         <hr/>
-          <Grid container>
-              <Grid item xs={6}>
+        <Grid container
+  direction="row"
+  justify="center"
+  alignItems="center">
+              <Grid item xs={12} md={4}>
               <Card variant="outlined">
           <CardContent>
-            <Grid container>
+          <Grid container
+  direction="row"
+  justify="center"
+  alignItems="center">
             <form onSubmit={event =>  this.llenarDatos(event) }>
+            <Grid item xs={12}>
+                  <h6>
+                    Complete la información para registrar el cliente
+                  </h6>
+                </Grid>
                 <Grid item xs={12}>
                 <TextField id="cedula" required type="number" label="Ingrese cédula" 
                 onChange={(event=>{this.changeValue(event, 'cedula')})} value={this.state.cedula}/>
@@ -114,18 +126,23 @@ export default class AgregarCliente extends React.Component {
                 <TextField id="email" type="email" required label="Ingrese email" 
                 onChange={(event=>{this.changeValue(event, 'email')})} value={this.state.email}/>
                 </Grid>
-                <Grid item xs={12}> 
-                <br/>
-                <div style={{textAlign: 'right'}}>
-                <Button  style={{color: '#335182'}} onClick={()=>this.llenarDatos()}>
-                Registrar
-              </Button>
-                </div>
-                
-              </Grid> 
                 </form>
               </Grid> 
               </CardContent>
+              <CardActions>
+                <Grid
+  container
+  direction="row"
+  justify="flex-end"
+  alignItems="center"
+>
+              <Grid>
+                <Button  style={{color: '#335182'}} onClick={()=>this.llenarDatos()}>
+                Registrar
+              </Button>
+                </Grid>
+                </Grid>
+              </CardActions>
               </Card>
               </Grid>
               </Grid>
