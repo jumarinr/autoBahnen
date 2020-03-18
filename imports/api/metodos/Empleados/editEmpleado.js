@@ -4,9 +4,10 @@ import { Promise } from "meteor/promise";
 import { Meteor } from "meteor/meteor";
 import dataBaseConnection from "../../../../startup/dataBaseConnection";
 
-export const createEmpleados = new ValidatedMethod({
-  name: "createEmpleados",
+export const editEmpleado = new ValidatedMethod({
+  name: "editEmpleado",
   validate: new SimpleSchema({
+    cedulaAntigua: { type: Number },
     cedula: { type: Number },
     nombre_completo: { type: String },
     telefono: { type: Number },
@@ -17,6 +18,8 @@ export const createEmpleados = new ValidatedMethod({
     codigoSede: { type: Number, optional: true }
   }).validator(),
   run({ ...data }) {
+    const cedulaAntigua = data.cedulaAntigua;
+    delete data.cedulaAntigua;
     if (data.isAsesor && (!data.comision || !data.codigoSede)) {
       throw new Meteor.Error(
         "Debe seleccionar una comisión y/o una sede a la cual pertenece el asesor"
@@ -46,24 +49,26 @@ export const createEmpleados = new ValidatedMethod({
         throw new Meteor.Error("La sede no existe");
       }
     }
-    /*
+    if (cedulaAntigua != data.cedula) {
+      /*
       SELECT * WHERE cedula = ${data.cedula} FROM EMPLEADO;
     */
-    const cedulaRepetida = Promise.await(
-      dataBaseConnection
-        .select()
-        .where("cedula", data.cedula)
-        .from("EMPLEADO")
-        .then(respuesta => {
-          const respuestaParseada = JSON.parse(JSON.stringify(respuesta));
-          return respuestaParseada;
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    );
-    if (cedulaRepetida && cedulaRepetida.length > 0) {
-      throw new Meteor.Error("La cedula ya esta registrada en base de datos");
+      const cedulaRepetida = Promise.await(
+        dataBaseConnection
+          .select()
+          .where("cedula", data.cedula)
+          .from("EMPLEADO")
+          .then(respuesta => {
+            const respuestaParseada = JSON.parse(JSON.stringify(respuesta));
+            return respuestaParseada;
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      );
+      if (cedulaRepetida && cedulaRepetida.length > 0) {
+        throw new Meteor.Error("La cedula ya esta registrada en base de datos");
+      }
     }
 
     /*
@@ -71,14 +76,15 @@ export const createEmpleados = new ValidatedMethod({
     */
     const resultado = Promise.await(
       dataBaseConnection("EMPLEADO")
-        .insert(data)
+        .where("cedula", cedulaAntigua)
+        .update(data)
         .then(resultado => {
           return resultado;
         })
         .catch(error => {
           console.log(error);
           throw new Meteor.Error(
-            `Error al crear el empleado, ${error.sqlMessage}`
+            `Error al editar el empleado, ${error.sqlMessage}`
           );
         })
     );

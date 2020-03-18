@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default class RegistrarVenta extends React.Component {
+export default class EditVenta extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,17 +49,13 @@ export default class RegistrarVenta extends React.Component {
       if (err) {
         console.log(err),
           this.setState({
-            loading: false,
             openError: true,
-            msgError: err.error,
-            errorF: true
+            msgError: err.error
           });
       } else {
         console.log(result);
         this.setState({
           empleados: result,
-          loading: false,
-          errorF: !!(result.length === 0),
           msgError:
             result.length === 0
               ? "No hay registros de empleados en la base de datos"
@@ -72,21 +68,38 @@ export default class RegistrarVenta extends React.Component {
       if (err) {
         console.log(err),
           this.setState({
-            loading: false,
             openError: true,
-            msgError: err.error,
-            errorF: true
+            msgError: err.error
           });
       } else {
         console.log(result);
         this.setState({
-          clientes: result,
-          loading: false,
-          errorF: !!(result.length === 0),
-          noData: !!(result.length === 0)
+          clientes: result
         });
       }
     });
+    Meteor.call(
+      "readVentaById",
+      { codigo: Number(this.props.match.params.codigo) },
+      (err, result) => {
+        if (err) {
+          console.log(err),
+            this.setState({
+              loading: false,
+              openError: true,
+              msgError: err.error,
+              errorF: true
+            });
+        } else {
+          console.log(result);
+          this.setState({
+            clienteCedula: result.clienteCedula,
+            empleadoCedula: result.empleadoCedula,
+            codigo: result.codigo
+          });
+        }
+      }
+    );
   }
   changeValue(event, name) {
     this.setState({ [`${name}`]: event.target.value });
@@ -115,23 +128,18 @@ export default class RegistrarVenta extends React.Component {
     }
     const data = {
       codigo: Number(this.state.codigo),
-      fecha: new Date(),
+      // fecha: new Date(),
       clienteCedula: Number(this.state.clienteCedula),
       empleadoCedula: Number(this.state.empleadoCedula)
     };
-
-    Meteor.call("createVenta", data, (err, result) => {
+    Meteor.call("editVenta", data, (err, result) => {
       if (err) {
         console.log(err);
         this.setState({ openError: true, msgError: err.error });
       } else {
         this.setState({
           openSuccess: true,
-          msgSuccess: "Venta creada con exito",
-          codigo: "",
-          fecha: "",
-          clienteCedula: "",
-          empleadoCedula: ""
+          msgSuccess: "Venta editada con exito"
         });
       }
     });
@@ -153,7 +161,7 @@ export default class RegistrarVenta extends React.Component {
                 >
                   <div>
                     <Grid item xs={12}>
-                      <h5>Complete la información para registrar la venta</h5>
+                      <h5>Edite la información de la venta</h5>
                     </Grid>
                     <form onSubmit={event => this.llenarDatos(event)}>
                       <Grid item xs={12}>
@@ -161,6 +169,7 @@ export default class RegistrarVenta extends React.Component {
                           id="codigo"
                           fullWidth={true}
                           required
+                          disabled={true}
                           type="number"
                           label="Ingrese código"
                           onChange={event => {
@@ -229,7 +238,7 @@ export default class RegistrarVenta extends React.Component {
                       style={{ color: "#335182" }}
                       onClick={() => this.llenarDatos()}
                     >
-                      Registrar
+                      Editar
                     </Button>
                   </Grid>
                 </Grid>
