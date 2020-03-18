@@ -65,7 +65,7 @@ export default class TablaClientes extends React.Component {
   justify="center"
   alignItems="center">
          {/*  <Grid item xs={2}/> */}
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
       <TableContainer style={{height : '100%', width: '100%'}} component={Paper}>
       {this.state.loading ? 
       (
