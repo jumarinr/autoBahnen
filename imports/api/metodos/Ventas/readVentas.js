@@ -17,7 +17,7 @@ export const readVentas = new ValidatedMethod({
        */
        const elementosEncontrados = Promise.await(
         dataBaseConnection.select(
-            dataBaseConnection.raw('codigo, fecha, EMPLEADO.nombre_completo as empleado, CLIENTE.nombre_completo as cliente, TIMESTAMPDIFF(HOUR,fecha,CURDATE()) AS edad'))
+            dataBaseConnection.raw('codigo, fecha, EMPLEADO.nombre_completo as empleado, CLIENTE.nombre_completo as cliente, TIMESTAMPDIFF(HOUR,fecha,CURDATE()) AS fechaTranscurrida'))
         .from(dataBaseConnection.raw('VENTA, CLIENTE, EMPLEADO'))
         .whereRaw('EMPLEADO.cedula = VENTA.empleadoCedula and CLIENTE.cedula = VENTA.clienteCedula')
         .then(
