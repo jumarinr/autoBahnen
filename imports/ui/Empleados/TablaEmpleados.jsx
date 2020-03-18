@@ -108,6 +108,7 @@ export default class TablaEmpleados extends React.Component {
             <TableCell align="center">Dirección</TableCell>
             <TableCell align="center">Tipo de empleado</TableCell>
             <TableCell align="center">Comisión</TableCell>
+            <TableCell align="center">Total de ventas</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -122,6 +123,7 @@ export default class TablaEmpleados extends React.Component {
               <TableCell align="center">{row.direccion || '--'}</TableCell>
               <TableCell align="center">{row.isAsesor ? 'Asesor' :  'Gerente'}</TableCell>
               <TableCell align="center">{row.comision || '--'}</TableCell>
+              <TableCell align="center">{row.totalVentas || '--'}</TableCell> 
             </TableRow>
           ))}
         </TableBody>

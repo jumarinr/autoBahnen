@@ -148,6 +148,7 @@ export default class VerVentas extends React.Component {
             <TableCell align="center">Fecha</TableCell>
             <TableCell align="center">Empleado</TableCell>
             <TableCell align="center">Cliente</TableCell>
+            <TableCell align="center">Horas transcurridas</TableCell>
             <TableCell align="center">Editar</TableCell>
             <TableCell align="center">Borrar</TableCell>
           </TableRow>
@@ -165,6 +166,7 @@ export default class VerVentas extends React.Component {
               <TableCell style={{textTransform: 'capitalize'}} align="center">{fecha}</TableCell>
               <TableCell align="center">{row.empleado || '--'}</TableCell>
               <TableCell align="center">{row.cliente || '--'}</TableCell>
+              <TableCell align="center">{row.fechaTranscurrida}</TableCell>
               <TableCell align="center"> <IconButton>   <EditOutlinedIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
               <TableCell align="center"> <IconButton onClick={()=>this.borrar(row.codigo)}>   <DeleteOutlineIcon style={{color: '#335182'}}/> </IconButton> </TableCell>
             </TableRow>

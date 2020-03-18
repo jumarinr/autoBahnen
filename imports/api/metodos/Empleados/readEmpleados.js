@@ -6,11 +6,15 @@ export const readEmpleados = new ValidatedMethod({
   name: 'readEmpleados',
   validate:  () => {},
   run() {
-       /* SELECT * FROM EMPLEADO; 
+       /* SELECT *, 
+       (SELECT COUNT(*) 
+       FROM VENTA WHERE VENTA.empleadoCedula = EMPLEADO.cedula) 
+       as totalVentas 
+       FROM EMPLEADO;
         retorna todos los elementos de la tabla EMPLEADO
        */
        const elementosEncontrados = Promise.await(
-        dataBaseConnection.select().from('EMPLEADO').then(
+        dataBaseConnection.select(dataBaseConnection.raw('*, (SELECT COUNT(*) FROM VENTA WHERE VENTA.empleadoCedula = EMPLEADO.cedula) as totalVentas')).from('EMPLEADO').then(
             (respuesta)=>{
             const respuestaParseada= JSON.parse(JSON.stringify(respuesta));
             return respuestaParseada
@@ -21,6 +25,7 @@ export const readEmpleados = new ValidatedMethod({
             throw new Meteor.Error(`Error en la búsqueda: ${error.sqlMessage}`)
         }
     ));
+    console.log(elementosEncontrados)
     return elementosEncontrados;
   }
 });
