@@ -80,9 +80,6 @@ export default class PaginaPrincipal extends React.Component {
                       <li>
                         <a href="/agregar_sede">Agregar sede</a>
                       </li>
-                      <li>
-                        <a href="/agregar_empleado">Agregar empleado</a>
-                      </li>
                     </ul>
                   </Grid>
                 </Grid>

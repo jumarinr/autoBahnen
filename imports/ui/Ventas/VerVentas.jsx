@@ -158,7 +158,7 @@ export default class VerVentas extends React.Component {
                       <TableCell align="center">Fecha</TableCell>
                       <TableCell align="center">Empleado</TableCell>
                       <TableCell align="center">Cliente</TableCell>
-                      <TableCell align="center">Horas transcurridas</TableCell>
+                      <TableCell align="center">Días transcurridos</TableCell>
                       <TableCell align="center">Editar</TableCell>
                       <TableCell align="center">Borrar</TableCell>
                     </TableRow>
@@ -167,7 +167,7 @@ export default class VerVentas extends React.Component {
                     {this.state.clientes.map(row => {
                       let fecha = moment(row.fecha);
                       fecha = fecha.locale("es");
-                      fecha = fecha.format("dddd, MMMM Do YYYY hh:mm:ss");
+                      fecha = fecha.format("dddd, MMMM DD YYYY hh:mm:ss");
                       return (
                         <TableRow key={row.codigo}>
                           <TableCell align="center" component="th" scope="row">

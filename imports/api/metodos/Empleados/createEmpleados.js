@@ -67,7 +67,7 @@ export const createEmpleados = new ValidatedMethod({
     }
 
     /*
-       'insert into `EMPLEADO` (`cedula`, `nombre_completo`, `salario_base`, `telefono`) values (cedula, \'nombre\', telefono, salario)'
+       'insert into `EMPLEADO` (`cedula`, `nombre_completo`, `salario_base`, `telefono`, `isAsesor`, `comision`, `codigoSede`) values (cedula, \'nombre\', telefono, salario_base, telefono, isAsesor, comision, codigoSede)'
     */
     const resultado = Promise.await(
       dataBaseConnection("EMPLEADO")
