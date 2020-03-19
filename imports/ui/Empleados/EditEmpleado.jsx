@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default class AgregarEmpleado extends React.Component {
+export default class EditEmpleado extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,7 +41,8 @@ export default class AgregarEmpleado extends React.Component {
       isAsesor: true,
       comision: "",
       sedes: [],
-      codigoSede: null
+      codigoSede: null,
+      editEmpleado: false
     };
   }
   componentDidMount() {
@@ -52,6 +53,28 @@ export default class AgregarEmpleado extends React.Component {
         this.setState({ sedes: result });
       }
     });
+    Meteor.call(
+      "readEmpleadoByCedula",
+      { cedula: Number(this.props.match.params.cedula) },
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.setState({
+            cedulaAntigua: result.cedula,
+            cedula: result.cedula,
+            nombre_completo: result.nombre_completo,
+            telefono: result.telefono,
+            salario_base: result.salario_base,
+            direccion: result.direccion,
+            openError: false,
+            isAsesor: !!result.isAsesor,
+            comision: result.comision,
+            codigoSede: result.codigoSede
+          });
+        }
+      }
+    );
   }
   changeValue(event, name) {
     this.setState({ [`${name}`]: event.target.value });
@@ -95,6 +118,7 @@ export default class AgregarEmpleado extends React.Component {
       return false;
     }
     const data = {
+      cedulaAntigua: Number(this.state.cedulaAntigua),
       cedula: Number(this.state.cedula),
       nombre_completo: this.state.nombre_completo,
       telefono: Number(this.state.telefono),
@@ -108,25 +132,21 @@ export default class AgregarEmpleado extends React.Component {
       data.comision = Number(this.state.comision);
       data.codigoSede = Number(this.state.codigoSede);
     }
-    Meteor.call("createEmpleados", data, (err, result) => {
+    Meteor.call("editEmpleado", data, (err, result) => {
       if (err) {
         console.log(err);
         this.setState({ openError: true, msgError: err.error });
       } else {
         this.setState({
           openSuccess: true,
-          msgSuccess: "Empleado creado con exito",
-          cedula: "",
-          nombre_completo: "",
-          telefono: "",
-          salario_base: "",
-          direccion: "",
-          comision: ""
+          msgSuccess: "Empleado editado con exito",
+          editEmpleado: true
         });
       }
     });
   }
   render() {
+    const { editEmpleado } = this.state;
     return (
       <div>
         <Header props={"agregaEmpleados"} />
@@ -143,9 +163,7 @@ export default class AgregarEmpleado extends React.Component {
                 >
                   <div>
                     <Grid item xs={12}>
-                      <h6>
-                        Complete la información para registrar el empleado
-                      </h6>
+                      <h6>Edite la información del empleado</h6>
                     </Grid>
                     <form onSubmit={event => this.llenarDatos(event)}>
                       <Grid item xs={12}>
@@ -153,6 +171,7 @@ export default class AgregarEmpleado extends React.Component {
                           id="cedula"
                           fullWidth={true}
                           required
+                          disabled={editEmpleado}
                           type="number"
                           label="Ingrese cédula"
                           onChange={event => {
@@ -166,6 +185,7 @@ export default class AgregarEmpleado extends React.Component {
                           id="nombre_completo"
                           fullWidth={true}
                           required
+                          disabled={editEmpleado}
                           label="Ingrese nombre"
                           onChange={event => {
                             this.changeValue(event, "nombre_completo");
@@ -178,6 +198,7 @@ export default class AgregarEmpleado extends React.Component {
                           id="telefono"
                           fullWidth={true}
                           required
+                          disabled={editEmpleado}
                           label="Ingrese télefono"
                           type="number"
                           onChange={event => {
@@ -190,6 +211,7 @@ export default class AgregarEmpleado extends React.Component {
                         <TextField
                           id="salario_base"
                           fullWidth={true}
+                          disabled={editEmpleado}
                           required
                           label="Ingrese salario base"
                           type="number"
@@ -204,6 +226,7 @@ export default class AgregarEmpleado extends React.Component {
                           <TextField
                             id="direccion"
                             fullWidth={true}
+                            disabled={editEmpleado}
                             label="Ingrese dirección"
                             onChange={event => {
                               this.changeValue(event, "direccion");
@@ -219,13 +242,15 @@ export default class AgregarEmpleado extends React.Component {
                         </InputLabel>
                         <Select
                           value={this.state.isAsesor}
+                          disabled={editEmpleado}
                           onChange={event =>
                             this.setState({ isAsesor: event.target.value })
                           }
                           inputProps={{
                             name: "Tipo de empleado",
                             fullWidth: true,
-                            id: "age-simple"
+                            id: "age-simple",
+                            disabled: editEmpleado
                           }}
                         >
                           <MenuItem value={true}>Asesor</MenuItem>
@@ -238,6 +263,7 @@ export default class AgregarEmpleado extends React.Component {
                           <Grid item xs={12}>
                             <TextField
                               id="comision"
+                              disabled={editEmpleado}
                               type="number"
                               fullWidth={true}
                               label="Ingrese Comisión"
@@ -252,6 +278,7 @@ export default class AgregarEmpleado extends React.Component {
                             <InputLabel htmlFor="sede">Sede</InputLabel>
                             <Select
                               value={this.state.codigoSede}
+                              disabled={editEmpleado}
                               onChange={event =>
                                 this.setState({
                                   codigoSede: event.target.value
@@ -259,6 +286,7 @@ export default class AgregarEmpleado extends React.Component {
                               }
                               inputProps={{
                                 name: "Sede",
+                                disabled: editEmpleado,
                                 fullWidth: true,
                                 id: "sede"
                               }}
@@ -284,12 +312,21 @@ export default class AgregarEmpleado extends React.Component {
                   alignItems="center"
                 >
                   <Grid>
-                    <Button
-                      style={{ color: "#335182" }}
-                      onClick={() => this.llenarDatos()}
-                    >
-                      Registrar
-                    </Button>
+                    {!this.state.editEmpleado ? (
+                      <Button
+                        style={{ color: "#335182" }}
+                        onClick={() => this.llenarDatos()}
+                      >
+                        Editar
+                      </Button>
+                    ) : (
+                      <Link href={`/ver_empleados`}>
+                        <Button style={{ color: "#335182" }}>
+                          {" "}
+                          Volver a empleados
+                        </Button>
+                      </Link>
+                    )}
                   </Grid>
                 </Grid>
               </CardActions>
