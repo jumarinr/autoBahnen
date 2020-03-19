@@ -72,7 +72,7 @@ export default class AgregarCliente extends React.Component {
           console.log(err)
           this.setState({openError: true, msgError: err.error})
         }else{
-          this.setState({openSuccess: true, msgSuccess: "Empleado creado con exito", 
+          this.setState({openSuccess: true, msgSuccess: "Cliente creado con exito", 
           cedula: '',
           nombre_completo: '',
           telefono: '',
