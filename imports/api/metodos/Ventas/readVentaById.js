@@ -9,19 +9,14 @@ export const readVentaById = new ValidatedMethod({
     codigo: { type: Number }
   }).validator(),
   run(data) {
-    /* SELECT codigo, fecha, EMPLEADO.nombre_completo as empleado, CLIENTE.nombre_completo as cliente
-       * FROM VENTA, CLIENTE, EMPLEADO
-       WHERE EMPLEADO.cedula = VENTA.empleadoCedula and CLIENTE.cedula =Venta.clienteCedula;
-
-        retorna todos los elementos de la tabla VENTA
-       */
+    /* SELECT * from VENTA where codigo = data.codigo
+     */
     const elementosEncontrados = Promise.await(
       dataBaseConnection
         .select()
         .from(dataBaseConnection.raw("VENTA"))
         .whereRaw(`VENTA.codigo = ${data.codigo}`)
         .then(respuesta => {
-          console.log(respuesta);
           const respuestaParseada = JSON.parse(JSON.stringify(respuesta));
           return respuestaParseada;
         })
@@ -30,7 +25,6 @@ export const readVentaById = new ValidatedMethod({
           throw new Meteor.Error(`Error en la búsqueda: ${error.sqlMessage}`);
         })
     );
-    console.log(elementosEncontrados);
     return elementosEncontrados[0];
   }
 });

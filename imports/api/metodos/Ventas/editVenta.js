@@ -13,6 +13,9 @@ export const editVenta = new ValidatedMethod({
     empleadoCedula: { type: Number }
   }).validator(),
   run({ ...data }) {
+    /*
+      SELECT * FROM EMPLEADO WHERE cedula = data.empleadoCedula
+    */
     const cedulaVendedor = Promise.await(
       dataBaseConnection
         .select()
@@ -29,6 +32,9 @@ export const editVenta = new ValidatedMethod({
     if (!cedulaVendedor || cedulaVendedor.length === 0) {
       throw new Meteor.Error("No se encontró la cedula del vendedor");
     }
+    /*
+    SELECT * FROM CLIENTE WHERE cedula = data.clienteCedula
+    */
     const cedulaCliente = Promise.await(
       dataBaseConnection
         .select()
@@ -47,7 +53,7 @@ export const editVenta = new ValidatedMethod({
     }
 
     /*
-       'insert into `EMPLEADO` (`cedula`, `nombre_completo`, `salario_base`, `telefono`) values (cedula, \'nombre\', telefono, salario)'
+       'UPDATE VENTA SET empleadoCedula, clienteCedula WHERE codigo = data.codigo'
     */
     const resultado = Promise.await(
       dataBaseConnection("VENTA")

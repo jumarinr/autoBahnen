@@ -20,7 +20,7 @@ export const createSede = new ValidatedMethod({
       throw new Meteor.Error("Debe seleccionar una comisión");
     }
     /*
-      SELECT * WHERE cedula: ${data.cedula} FROM EMPLEADO;
+      SELECT * WHERE codigo: ${data.codigo} FROM SEDE;
     */
     const codigoRepetido = Promise.await(
       dataBaseConnection
@@ -36,9 +36,13 @@ export const createSede = new ValidatedMethod({
         })
     );
     if (codigoRepetido && codigoRepetido.length > 0) {
-      throw new Meteor.Error("La cedula ya esta registrada en base de datos");
+      throw new Meteor.Error(
+        "La codigo de sede ya esta registrado en base de datos"
+      );
     }
-
+    /*
+    SELECT * FROM EMPLEADO WHERE cedula = data.gerenteCedula
+    */
     const cedulaGerente = Promise.await(
       dataBaseConnection
         .select()
@@ -55,6 +59,9 @@ export const createSede = new ValidatedMethod({
     if (!cedulaGerente || cedulaGerente.length === 0) {
       throw new Meteor.Error("No se encontró la cedula del vendedor");
     }
+    /*
+    SELECT * FROM SEDE WHERE gerenteCedula = data.gerenteCedula
+    */
     const gerenteConSede = Promise.await(
       dataBaseConnection
         .select()
@@ -72,7 +79,7 @@ export const createSede = new ValidatedMethod({
       throw new Meteor.Error("El gerente ya tiene asociada una sede");
     }
     /*
-       'insert into `EMPLEADO` (`cedula`, `nombre_completo`, `salario_base`, `telefono`) values (cedula, \'nombre\', telefono, salario)'
+       'insert into `SEDE` (`codigo`, `nombre`, `direccion`, `telefono`, `municipio`, `email`, `gerenteCedula`) values (`data.codigo`, `data.nombre`, `data.direccion`, `data.telefono`, `data.municipio`, `data.email`, `data.gerenteCedula`)'
     */
     const resultado = Promise.await(
       dataBaseConnection("SEDE")
