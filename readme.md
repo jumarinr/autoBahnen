@@ -7,7 +7,7 @@ Proyecto 2 de bases de datos 1, Integrantes:
 1. Para poder iniciar el proyecto se debe tener previamente instalado MeteorJS. Consulte esta página web para descargar Meteor. --> https://www.meteor.com/install
 2. Para iniciar la aplicación se debe correr el comando meteor npm install y posterior a esto npm start
 
-Nota: El servidor MYSQL esta montado en https://remotemysql.com/ , cabe resaltar que para ejecutar la aplicación requiere conexión a internet y además no tener ninguna configuración de contafuegos que impida conectar.
+Nota: El servidor MYSQL esta montado en https://remotemysql.com/ , cabe resaltar que para ejecutar la aplicación requiere conexión a internet y además no tener ninguna configuración de cortafuegos que impida conectar.
 
 La organización del proyecto es:
 
