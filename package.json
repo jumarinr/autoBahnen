@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.6.0",
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
-    "knex": "^0.20.10",
+    "knex": "^2.4.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "meteor-node-stubs": "^1.0.0",
     "moment": "^2.24.0",
